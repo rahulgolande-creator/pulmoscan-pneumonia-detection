@@ -29,7 +29,10 @@ def preprocess_image(uploaded_file):
     else:
         img = np.array(Image.open(uploaded_file).convert("L")).astype("float32")
 
-    img_display = img.copy()
+    # Properly rescale actual pixel range to 0-255 for correct display,
+    # regardless of the original bit depth (8-bit, 12-bit, or 16-bit DICOM)
+    img_display = ((img - img.min()) / (img.max() - img.min() + 1e-8) * 255).astype("uint8")
+
     img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
     img = img / 255.0
     img_3ch = np.stack([img, img, img], axis=-1)
