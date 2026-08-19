@@ -45,7 +45,7 @@ uploaded_file = st.file_uploader("Upload Chest X-Ray", type=["dcm", "jpg", "jpeg
 
 if uploaded_file is not None:
     img_batch, img_display = preprocess_image(uploaded_file)
-    st.image(img_display, caption="Uploaded X-Ray", clamp=True, use_column_width=True)
+    st.image(img_display, caption="Uploaded X-Ray", clamp=True, use_container_width=True)
 
     prob = float(model.predict(img_batch, verbose=0)[0][0])
     label = "Pneumonia Detected" if prob > 0.5 else "No Pneumonia Detected"
